@@ -17,16 +17,16 @@ class InventoryController
 
     public function filterableBy(): array
     {
-        return ['lang', 'key', 'tag', 'content'];
+        return ['id', 'product_id', 'quantity', 'storage_location', 'price_per_unit', 'last_stocked_at'];
     }
 
     public function searchableBy(): array
     {
-        return ['lang', 'key', 'content', 'tag'];
+        return ['id', 'product_id', 'quantity', 'storage_location', 'price_per_unit', 'last_stocked_at'];
     }
 
     public function sortableBy(): array
     {
-        return ['id', 'key'];
+        return ['id', 'product_id', 'quantity', 'price_per_unit', 'last_stocked_at'];
     }
 }

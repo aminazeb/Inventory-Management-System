@@ -28,7 +28,7 @@ class ProductController
      */
     protected function includes(): array
     {
-        return ['author', 'tags'];
+        return [];
     }
 
     /**
@@ -38,7 +38,7 @@ class ProductController
      */
     protected function filterableBy(): array
     {
-        return ['title', 'status', 'published_at'];
+        return ['id', 'name', 'description', 'color', 'image_url', 'price'];
     }
 
     /**
@@ -48,7 +48,7 @@ class ProductController
      */
     protected function sortableBy(): array
     {
-        return ['title', 'published_at'];
+        return ['id', 'name', 'price'];
     }
 
     /**
@@ -58,6 +58,6 @@ class ProductController
      */
     protected function searchableBy(): array
     {
-        return ['title', 'content'];
+        return ['id', 'name', 'description', 'color', 'image_url', 'price'];
     }
 }

@@ -11,6 +11,7 @@ A Laravel-based Inventory Management System for managing products, inventory, sa
 - Role and permission management
 - RESTful API endpoints
 - Localization support (ar, en, es, fr)
+- AWS S3 configured (supabase)
 
 ## Requirements
 

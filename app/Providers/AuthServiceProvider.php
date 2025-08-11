@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\Translation;
-use App\Policies\TranslationPolicy;
+use App\Models\Product;
+use App\Models\Inventory;
+use App\Policies\ProductPolicy;
+use App\Policies\InventoryPolicy;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -14,7 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Translation::class => TranslationPolicy::class,
+        Inventory::class => InventoryPolicy::class,
+        Product::class => ProductPolicy::class,
     ];
 
     /**

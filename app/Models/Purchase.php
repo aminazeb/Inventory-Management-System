@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Inventory extends Model
+class Purchase extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -14,18 +14,22 @@ class Inventory extends Model
     protected static function boot()
     {
         parent::boot();
-        // self::observe(InventoryObserver::class);
+        // self::observe(PurchaseObserver::class);
     }
 
     protected $fillable = [
         'product_id',
+        'supplier',
+        'manufacturer',
+        'cost_per_unit',
+        'amount',
+        'meta',
         'quantity',
-        'storage_location',
-        'price_per_unit',
-        'last_stocked_at',
     ];
 
     protected $casts = [
-        'price_per_unit' => 'decimal:2',
+        'meta' => 'array',
+        'amount' => 'decimal:2',
+        'cost_per_unit' => 'decimal:2',
     ];
 }

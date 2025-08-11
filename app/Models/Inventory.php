@@ -11,6 +11,8 @@ class Inventory extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = 'inventory';
+
     protected static function boot()
     {
         parent::boot();
@@ -21,11 +23,11 @@ class Inventory extends Model
         'product_id',
         'quantity',
         'storage_location',
-        'price_per_unit',
+        'amount',
         'last_stocked_at',
     ];
 
     protected $casts = [
-        'price_per_unit' => 'decimal:2',
+        'amount' => 'decimal:2',
     ];
 }

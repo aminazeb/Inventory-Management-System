@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchase', function (Blueprint $table) {
+        Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->integer('product_id');
             $table->string('supplier');
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->json('meta');
             $table->integer('quantity');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchase');
+        Schema::dropIfExists('purchases');
     }
 };

@@ -8,10 +8,12 @@ A Laravel-based Inventory Management System for managing products, inventory, sa
 - Inventory tracking
 - Sales and purchase records
 - User authentication and authorization
+- Email Address Verification via Laravel Auth
+- Phone Number verificartion via Textbelt
+- AWS S3 for Cloud Storage (supabase)
 - Role and permission management
 - RESTful API endpoints
 - Localization support (ar, en, es, fr)
-- AWS S3 configured (supabase)
 
 ## Requirements
 
@@ -55,20 +57,26 @@ A Laravel-based Inventory Management System for managing products, inventory, sa
 8. **Start the development server:**
 	```bash
 	php artisan serve
-	```
+
+
+## Formatting
+	php-cs-fixer fix app
 
 ## Usage
 
 - Access the web interface at `http://localhost:8000`.
-- API endpoints are available under `/api`.
-- Authentication is required for most operations.
+- API endpoints are available under `/api` and `/orion`.
+- Authentication is required for all endpoints.
+- Email verification is required for some endpoints.
 
 ## Testing
 
-Run tests with:
+- Mailtrap for testing mails
+- Run tests with:
 ```bash
 php artisan test
 ```
+
 
 ## Project Structure
 
@@ -81,4 +89,4 @@ php artisan test
 
 ## License
 
-This project is open-source and available under the [MIT License](LICENSE).
+N/A

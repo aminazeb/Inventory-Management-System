@@ -103,6 +103,8 @@ return [
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
+    'country_code' => env('COUNTRY_CODE', 'PK'),
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key

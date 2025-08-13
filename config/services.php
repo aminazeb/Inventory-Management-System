@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'textbelt' => [
+        'key' => env('TEXTBELT_API_KEY', 'textbelt'),
+    ],
+
 ];

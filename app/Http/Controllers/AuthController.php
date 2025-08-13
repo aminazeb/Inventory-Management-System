@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Events\UserCreated;
+use App\Saloon\Connectors\TextbeltConnector;
+use App\Saloon\Requests\VerifyTextbeltOTP;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -14,18 +17,26 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
+            'phone' => 'nullable|string|max:100',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'phone' => $request->phone,
         ]);
+
+        UserCreated::dispatch($user);
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'email_verified' => $user->hasVerifiedEmail(),
+        ]);
     }
 
     public function login(Request $request)
@@ -51,5 +62,78 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
 
         return response()->json(['message' => 'Logged out']);
+    }
+
+    public function verifyPhone(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'otp' => 'required|string',
+        ]);
+
+        $user = User::findOrFail($request->input('user_id'));
+        if (empty($user->phone)) {
+            return response()->json(['message' => 'No phone on record'], 422);
+        }
+
+        $apiKey = (string) config('services.textbelt.key', '');
+        if ($apiKey === '') {
+            return response()->json(['message' => 'Service not configured'], 500);
+        }
+
+        $connector = new TextbeltConnector();
+        $requestVerify = new VerifyTextbeltOTP(
+            $request->string('otp'),
+            (string) $user->getKey(),
+            $apiKey
+        );
+
+        $response = $connector->send($requestVerify);
+        $data = $response->json();
+
+        if (!empty($data['success']) && !empty($data['isValidOtp'])) {
+            $user->forceFill(['phone_verified_at' => now()])->save();
+            return response()->json(['message' => 'Phone verified']);
+        }
+
+        return response()->json([
+            'message' => $data['error'] ?? 'Invalid OTP',
+        ], 422);
+    }
+
+    public function verifyEmail(Request $request, $id, $hash)
+    {
+        $user = User::findOrFail($id);
+
+        if (!hash_equals(
+            (string) $hash,
+            sha1($user->getEmailForVerification())
+        )) {
+            return response()->json(['message' => 'Invalid verification link'], 400);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Email already verified']);
+        }
+
+        $user->markEmailAsVerified();
+
+        return response()->json(['message' => 'Email verified successfully']);
+    }
+
+    public function resendEmailVerification(Request $request)
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Email already verified']);
+        }
+
+        $request->user()->sendEmailVerificationNotification();
+
+        return response()->json(['message' => 'Verification link sent']);
+    }
+
+    public function profile(Request $request)
+    {
+        return $request->user();
     }
 }

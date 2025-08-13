@@ -62,7 +62,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('orion')
+        Route::prefix('api')
             ->middleware('api')
             ->group(base_path('routes/orion.php'));
     }
@@ -78,7 +78,7 @@ class RouteServiceProvider extends ServiceProvider
             $perMinute = env('APP_ENV') === 'testing' ? 1000 : 5;
 
             return [
-                Limit::perMinute($perMinute)->by($request->user?->id ?? $request->user()?->id)->response(fn() => response(['message' => trans('You have reached the maximum number of attempts. Please try again after 1 minute.')], 429)),
+                Limit::perMinute($perMinute)->by($request->user?->id ?? $request->user()?->id)->response(fn () => response(['message' => trans('You have reached the maximum number of attempts. Please try again after 1 minute.')], 429)),
             ];
         });
     }

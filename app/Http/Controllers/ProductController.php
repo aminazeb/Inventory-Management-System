@@ -15,7 +15,7 @@ class ProductController extends Controller
 
     public function includes(): array
     {
-        return [];
+        return ['sales', 'purchases', 'inventory'];
     }
 
     public function filterableBy(): array

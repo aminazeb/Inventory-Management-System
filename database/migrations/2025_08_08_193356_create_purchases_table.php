@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->integer('product_id');
+            $table->integer('user_id');
             $table->string('supplier');
             $table->string('manufacturer');
             $table->decimal('cost_per_unit', 10, 2);
             $table->decimal('amount', 8, 2);
-            $table->json('meta');
+            $table->json('meta')->nullable();
             $table->integer('quantity');
             $table->timestamps();
             $table->softDeletes();

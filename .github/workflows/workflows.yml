@@ -37,7 +37,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.4.11'
           extensions: mbstring, bcmath, pdo_mysql
           coverage: none
 
@@ -50,18 +50,23 @@ jobs:
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
-
-      - name: Run PHP-CS-Fixer and commit changes
+      
+      - name: Check style (dry run)
         run: |
           composer require --dev friendsofphp/php-cs-fixer
-          vendor/bin/php-cs-fixer fix app
-          if [ -n "$(git status --porcelain)" ]; then
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git add app
-            git commit -m "Apply PHP-CS-Fixer formatting"
-            git push
-          fi
+          vendor/bin/php-cs-fixer fix app --diff --dry-run
+
+      # - name: Run PHP-CS-Fixer and commit changes
+      #   run: |
+      #     composer require --dev friendsofphp/php-cs-fixer
+      #     vendor/bin/php-cs-fixer fix app
+      #     if [ -n "$(git status --porcelain)" ]; then
+      #       git config --global user.name "github-actions[bot]"
+      #       git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      #       git add app
+      #       git commit -m "Apply PHP-CS-Fixer formatting"
+      #       git push
+      #     fi
 
       - name: Prepare environment file
         run: cp .env.example .env

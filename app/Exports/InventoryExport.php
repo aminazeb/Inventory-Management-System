@@ -20,7 +20,9 @@ class InventoryExport implements FromCollection, WithHeadings, WithMapping, With
 {
     use Exportable;
 
-    public function __construct(public Request $request) {}
+    public function __construct(public Request $request)
+    {
+    }
 
     public function collection(): Collection
     {

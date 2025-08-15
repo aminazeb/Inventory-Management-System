@@ -106,7 +106,10 @@ class SalesController extends Controller
 
     protected function afterStore(RequestsRequest $request, Model $entity)
     {
-        $entity->product->inventory->quantity -= $entity->quantity;
-        $entity->product->inventory->save();
+        $inventory = $entity->product->inventory;
+        if ($inventory) {
+            $inventory->quantity -= $entity->quantity;
+            $inventory->save();
+        }
     }
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('product_id');
             $table->integer('user_id');
+            $table->string('customer_email')->nullable();
             $table->json('meta')->nullable();
             $table->integer('quantity');
             $table->decimal('amount', 8, 2);

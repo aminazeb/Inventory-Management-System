@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('quantity')->default(0);
             $table->string('storage_location');
-            $table->decimal('amount', 10, 2);
+            $table->decimal('price', 10, 2);
             $table->timestamp('last_stocked_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

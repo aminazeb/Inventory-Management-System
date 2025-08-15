@@ -4,19 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
-    protected static function boot()
-    {
-        parent::boot();
-        // self::observe(ProductObserver::class);
-    }
 
     protected $fillable = [
         'name',
@@ -48,10 +43,10 @@ class Product extends Model
     }
 
     /**
-     * Get the inventory records for this product.
+     * Get the inventory record for this product.
      */
-    public function inventory(): HasMany
+    public function inventory(): HasOne
     {
-        return $this->hasMany(Inventory::class);
+        return $this->hasOne(Inventory::class);
     }
 }

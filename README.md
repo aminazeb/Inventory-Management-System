@@ -7,7 +7,8 @@ A Laravel-based Inventory Management System for managing products, inventory, sa
 - Product management
 - Inventory tracking
 - Sales and purchase records
-- User authentication and authorization
+- User authentication including Mail Address (Laravel Auth) and Phone Number (Textbelt) 
+- User authorization using Spatie Permissions
 - Export Inventory with Filters as Excel Sheet (Laravel Excel)
 - Email Address Verification via Laravel Auth
 - Phone Number verificartion via Textbelt

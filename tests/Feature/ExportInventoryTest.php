@@ -31,11 +31,11 @@ class ExportInventoryTest extends TestCase
             'price' => 10.00
         ]);
 
-        $inventory = Inventory::factory()->create([
+        Inventory::factory()->create([
             'product_id' => $product->id,
             'quantity' => 100,
             'storage_location' => 'Warehouse A',
-            'amount' => 800.00,
+            'price' => 800.00,
             'last_stocked_at' => now()
         ]);
 
@@ -52,8 +52,8 @@ class ExportInventoryTest extends TestCase
         $product1 = Product::factory()->create(['name' => 'Product A']);
         $product2 = Product::factory()->create(['name' => 'Product B']);
 
-        $inventory1 = Inventory::factory()->create(['product_id' => $product1->id]);
-        $inventory2 = Inventory::factory()->create(['product_id' => $product2->id]);
+        Inventory::factory()->create(['product_id' => $product1->id]);
+        Inventory::factory()->create(['product_id' => $product2->id]);
 
         $response = $this->actingAs($this->user)
             ->post('/api/inventory/export', [
@@ -79,8 +79,8 @@ class ExportInventoryTest extends TestCase
     public function test_export_inventory_with_quantity_range_filter()
     {
         $product = Product::factory()->create();
-        $inventory1 = Inventory::factory()->create(['product_id' => $product->id, 'quantity' => 50]);
-        $inventory2 = Inventory::factory()->create(['product_id' => $product->id, 'quantity' => 150]);
+        Inventory::factory()->create(['product_id' => $product->id, 'quantity' => 50]);
+        Inventory::factory()->create(['product_id' => $product->id, 'quantity' => 150]);
 
         $response = $this->actingAs($this->user)
             ->post('/api/inventory/export', [
@@ -101,11 +101,11 @@ class ExportInventoryTest extends TestCase
     public function test_export_inventory_with_storage_location_filter()
     {
         $product = Product::factory()->create();
-        $inventory1 = Inventory::factory()->create([
+        Inventory::factory()->create([
             'product_id' => $product->id,
             'storage_location' => 'Warehouse A'
         ]);
-        $inventory2 = Inventory::factory()->create([
+        Inventory::factory()->create([
             'product_id' => $product->id,
             'storage_location' => 'Warehouse B'
         ]);
@@ -121,13 +121,13 @@ class ExportInventoryTest extends TestCase
     public function test_export_inventory_with_price_range_filter()
     {
         $product = Product::factory()->create();
-        $inventory1 = Inventory::factory()->create([
+        Inventory::factory()->create([
             'product_id' => $product->id,
-            'amount' => 5.00
+            'price' => 5.00
         ]);
-        $inventory2 = Inventory::factory()->create([
+        Inventory::factory()->create([
             'product_id' => $product->id,
-            'amount' => 25.00
+            'price' => 25.00
         ]);
 
         $response = $this->actingAs($this->user)
@@ -142,11 +142,11 @@ class ExportInventoryTest extends TestCase
     public function test_export_inventory_with_date_range_filter()
     {
         $product = Product::factory()->create();
-        $inventory1 = Inventory::factory()->create([
+        Inventory::factory()->create([
             'product_id' => $product->id,
             'last_stocked_at' => now()->subDays(5)
         ]);
-        $inventory2 = Inventory::factory()->create([
+        Inventory::factory()->create([
             'product_id' => $product->id,
             'last_stocked_at' => now()->subDays(15)
         ]);

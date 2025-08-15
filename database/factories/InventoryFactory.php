@@ -21,7 +21,7 @@ class InventoryFactory extends Factory
             'product_id' => Product::factory(),
             'quantity' => fake()->numberBetween(1, 1000),
             'storage_location' => fake()->randomElement(['Warehouse A', 'Warehouse B', 'Shelf 1', 'Shelf 2']),
-            'amount' => fake()->randomFloat(2, 0.5, 50),
+            'price' => fake()->randomFloat(2, 0.5, 50),
             'last_stocked_at' => fake()->dateTimeBetween('-30 days', 'now'),
         ];
     }

@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sales;
-use Orion\Http\Controllers\Controller;
+use App\Models\Product;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Orion\Http\Controllers\Controller;
+use Orion\Http\Requests\Request as RequestsRequest;
 
 class SalesController extends Controller
 {
@@ -89,18 +93,20 @@ class SalesController extends Controller
     {
         // Set user_id to authenticated user if not provided
         if (!$request->has('user_id')) {
-            $model->user_id = auth()->id();
+            $model->user_id = Auth::user()->id;
+        }
+
+        if ($request->has('product_id') && !$request->has('amount')) {
+            $product = Product::find($request->product_id);
+            if ($product) {
+                $model->amount = $model->quantity * $product->price;
+            }
         }
     }
 
-    /**
-     * Handle any actions before updating the model
-     */
-    protected function beforeUpdate(Request $request, $model)
+    protected function afterStore(RequestsRequest $request, Model $entity)
     {
-        // Set user_id to authenticated user if not provided
-        if (!$request->has('user_id')) {
-            $model->user_id = auth()->id();
-        }
+        $entity->product->inventory->quantity -= $entity->quantity;
+        $entity->product->inventory->save();
     }
 }

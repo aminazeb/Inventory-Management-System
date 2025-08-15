@@ -384,9 +384,9 @@ List all inventory items with optional filtering, sorting, and searching.
 - `filter[product_id]`: Filter by product ID
 - `filter[quantity]`: Filter by quantity
 - `filter[storage_location]`: Filter by storage location
-- `filter[amount]`: Filter by price per unit
+- `filter[price]`: Filter by price per unit
 - `filter[last_stocked_at]`: Filter by last stocked date
-- `sort`: Sort by field (id, product_id, quantity, amount, last_stocked_at)
+- `sort`: Sort by field (id, product_id, quantity, price, last_stocked_at)
 - `search`: Search in storage_location
 - `include`: Include relationships (product)
 
@@ -456,7 +456,6 @@ Export inventory data to Excel format with comprehensive filtering options. This
 ## Features
 
 ### Automatic Field Calculation
-- **Purchases**: `amount` is automatically calculated as `cost_per_unit * quantity`
 - **User Assignment**: `user_id` is automatically set to the authenticated user for purchases and sales
 
 ### Soft Deletes

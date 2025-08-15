@@ -14,22 +14,17 @@ class Inventory extends Model
 
     protected $table = 'inventory';
 
-    protected static function boot()
-    {
-        parent::boot();
-        // self::observe(InventoryObserver::class);
-    }
 
     protected $fillable = [
         'product_id',
         'quantity',
         'storage_location',
-        'amount',
+        'price',
         'last_stocked_at',
     ];
 
     protected $casts = [
-        'amount' => 'decimal:2',
+        'price' => 'decimal:2',
         'last_stocked_at' => 'datetime',
     ];
 

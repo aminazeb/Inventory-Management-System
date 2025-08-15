@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Purchase;
-use Orion\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Orion\Http\Controllers\Controller;
 
 class PurchaseController extends Controller
 {
@@ -91,32 +92,11 @@ class PurchaseController extends Controller
         ];
     }
 
-    /**
-     * Handle any actions before storing the model
-     */
     protected function beforeStore(Request $request, $model)
     {
         // Set user_id to authenticated user if not provided
         if (!$request->has('user_id')) {
-            $model->user_id = auth()->id();
-        }
-
-        // Calculate amount if not provided
-        if (!$request->has('amount') && $request->has('cost_per_unit') && $request->has('quantity')) {
-            $model->amount = $request->cost_per_unit * $request->quantity;
-        }
-    }
-
-    /**
-     * Handle any actions before updating the model
-     */
-    protected function beforeUpdate(Request $request, $model)
-    {
-        // Calculate amount if cost_per_unit or quantity changed
-        if ($request->has('cost_per_unit') || $request->has('quantity')) {
-            $costPerUnit = $request->get('cost_per_unit', $model->cost_per_unit);
-            $quantity = $request->get('quantity', $model->quantity);
-            $model->amount = $costPerUnit * $quantity;
+            $model->user_id = Auth::user()->id;
         }
     }
 }

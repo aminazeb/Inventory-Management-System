@@ -6,7 +6,9 @@ use App\Models\Product;
 
 class UpdateProduct
 {
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     public function handle($purchase): void
     {

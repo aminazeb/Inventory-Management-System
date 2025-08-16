@@ -19,12 +19,10 @@ class Inventory extends Model
         'product_id',
         'quantity',
         'storage_location',
-        'price',
         'last_stocked_at',
     ];
 
     protected $casts = [
-        'price' => 'decimal:2',
         'last_stocked_at' => 'datetime',
     ];
 
@@ -35,20 +33,4 @@ class Inventory extends Model
     {
         return $this->belongsTo(Product::class);
     }
-
-    // /**
-    //  * Get the price per unit (amount / quantity)
-    //  */
-    // public function getPricePerUnitAttribute()
-    // {
-    //     return $this->quantity > 0 ? $this->amount / $this->quantity : 0;
-    // }
-
-    // /**
-    //  * Set the amount based on quantity and price per unit
-    //  */
-    // public function setPricePerUnitAttribute($value)
-    // {
-    //     $this->amount = $this->quantity * $value;
-    // }
 }

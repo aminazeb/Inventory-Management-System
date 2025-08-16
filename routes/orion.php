@@ -6,7 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
-use App\Http\Controllers\SalesController;
+use App\Http\Controllers\SaleController;
 use App\Actions\ExportInventory;
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -14,7 +14,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Orion::resource('inventory', InventoryController::class);
     Orion::resource('users', UserController::class)->only('index', 'search', 'show', 'update');
     Orion::resource('purchases', PurchaseController::class);
-    Orion::resource('sales', SalesController::class);
+    Orion::resource('sales', SaleController::class);
 });
 
 

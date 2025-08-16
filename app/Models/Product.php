@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Sale;
+use App\Models\Purchase;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -31,7 +33,7 @@ class Product extends Model
      */
     public function sales(): HasMany
     {
-        return $this->hasMany(Sales::class);
+        return $this->hasMany(Sale::class);
     }
 
     /**

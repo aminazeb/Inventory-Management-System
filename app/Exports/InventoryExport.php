@@ -54,15 +54,6 @@ class InventoryExport implements FromCollection, WithHeadings, WithMapping, With
             $query->where('quantity', '<=', $this->request->max_quantity);
         }
 
-        // Apply price range filters if provided
-        if ($this->request->has('min_price') && $this->request->min_price !== null) {
-            $query->where('price', '>=', $this->request->min_price);
-        }
-
-        if ($this->request->has('max_price') && $this->request->max_price !== null) {
-            $query->where('price', '<=', $this->request->max_price);
-        }
-
         // Apply date filters if provided
         if ($this->request->has('date_from') && $this->request->date_from) {
             $query->where('last_stocked_at', '>=', $this->request->date_from);
@@ -100,7 +91,6 @@ class InventoryExport implements FromCollection, WithHeadings, WithMapping, With
     public function map($inventory): array
     {
         $product = $inventory->product;
-        $price = $inventory->price;
 
         return [
             $inventory->id,
@@ -110,8 +100,8 @@ class InventoryExport implements FromCollection, WithHeadings, WithMapping, With
             $product ? number_format($product->price, 2) : 'N/A',
             $inventory->storage_location ?: 'N/A',
             $inventory->quantity,
-            number_format($price, 2),
-            number_format($price * $inventory->quantity, 2),
+            $product ? number_format($product->price, 2) : 'N/A',
+            $product ? number_format($product->price * $inventory->quantity, 2) : 'N/A',
             $inventory->last_stocked_at ? $inventory->last_stocked_at->format('Y-m-d H:i:s') : 'N/A',
             $inventory->created_at->format('Y-m-d H:i:s'),
             $inventory->updated_at->format('Y-m-d H:i:s'),

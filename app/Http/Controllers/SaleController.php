@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sales;
+use App\Events\ProductsSold;
+use App\Models\Sale;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Orion\Http\Controllers\Controller;
-use Orion\Http\Requests\Request as RequestsRequest;
+use Orion\Http\Requests\Request;
 
-class SalesController extends Controller
+class SaleController extends Controller
 {
-    protected $model = Sales::class;
-    protected $policy = \App\Policies\SalesPolicy::class;
+    protected $model = Sale::class;
+    protected $policy = \App\Policies\SalePolicy::class;
 
     public function includes(): array
     {
@@ -56,42 +56,8 @@ class SalesController extends Controller
         ];
     }
 
-    /**
-     * The attributes that are allowed for creating a new model.
-     */
-    public function creatableFields(): array
-    {
-        return [
-            'product_id',
-            'user_id',
-            'meta',
-            'quantity',
-            'amount',
-            'action'
-        ];
-    }
-
-    /**
-     * The attributes that are allowed for updating a model.
-     */
-    public function updatableFields(): array
-    {
-        return [
-            'product_id',
-            'user_id',
-            'meta',
-            'quantity',
-            'amount',
-            'action'
-        ];
-    }
-
-    /**
-     * Handle any actions before storing the model
-     */
     protected function beforeStore(Request $request, $model)
     {
-        // Set user_id to authenticated user if not provided
         if (!$request->has('user_id')) {
             $model->user_id = Auth::user()->id;
         }
@@ -99,17 +65,13 @@ class SalesController extends Controller
         if ($request->has('product_id') && !$request->has('amount')) {
             $product = Product::find($request->product_id);
             if ($product) {
-                $model->amount = $model->quantity * $product->price;
+                $model->amount = $request->quantity * $product->price;
             }
         }
     }
 
-    protected function afterStore(RequestsRequest $request, Model $entity)
+    protected function afterStore(Request $request, Model $entity)
     {
-        $inventory = $entity->product->inventory;
-        if ($inventory) {
-            $inventory->quantity -= $entity->quantity;
-            $inventory->save();
-        }
+        ProductsSold::dispatch($entity);
     }
 }

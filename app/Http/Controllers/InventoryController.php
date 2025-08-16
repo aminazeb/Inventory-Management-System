@@ -17,16 +17,16 @@ class InventoryController extends Controller
 
     public function filterableBy(): array
     {
-        return ['id', 'product_id', 'quantity', 'storage_location', 'price', 'last_stocked_at'];
+        return ['id', 'product_id', 'quantity', 'storage_location', 'last_stocked_at'];
     }
 
     public function searchableBy(): array
     {
-        return ['id', 'product_id', 'quantity', 'storage_location', 'price', 'last_stocked_at'];
+        return ['id', 'product_id', 'quantity', 'storage_location', 'last_stocked_at'];
     }
 
     public function sortableBy(): array
     {
-        return ['id', 'product_id', 'quantity', 'price', 'last_stocked_at'];
+        return ['id', 'product_id', 'quantity', 'last_stocked_at'];
     }
 }

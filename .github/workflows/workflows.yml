@@ -7,7 +7,7 @@ on:
       - develop
 
 permissions:
-  contents: write    # Needed to push code style changes back to the PR branch
+  contents: read
 
 jobs:
   format-and-test:
@@ -67,7 +67,7 @@ jobs:
       #       git commit -m "Apply PHP-CS-Fixer formatting"
       #       git push
       #     fi
-
+         
       - name: Prepare environment file
         run: cp .env.example .env
 

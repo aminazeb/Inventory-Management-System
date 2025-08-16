@@ -7,15 +7,15 @@ A Laravel-based Inventory Management System for managing products, inventory, sa
 - Product management
 - Inventory tracking
 - Sales and purchase records
-- User authentication including Mail Address (Laravel Auth) and Phone Number (Textbelt) 
-- User authorization using Spatie Permissions
+- User authentication
+- User authorization using Spatie Role/Permissions
 - Export Inventory with Filters as Excel Sheet (Laravel Excel)
-- Email Address Verification via Laravel Auth
-- Phone Number verificartion via Textbelt
+- Email Address Verification (Laravel Auth)
+- Phone Number verificartion (Textbelt)
 - AWS S3 for Cloud Storage (supabase)
 - Role and permission management
-- RESTful API endpoints
-- Localization support (ar, en, es, fr)
+- Orion/API endpoints
+- Localization support (ar, en)
 
 ## Requirements
 

@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProductsPurchased;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
+use App\Policies\PurchasePolicy;
 use Illuminate\Support\Facades\Auth;
 use Orion\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Model;
 
 class PurchaseController extends Controller
 {
     protected $model = Purchase::class;
-    protected $policy = \App\Policies\PurchasePolicy::class;
+    protected $policy = PurchasePolicy::class;
 
     public function includes(): array
     {
@@ -58,45 +61,15 @@ class PurchaseController extends Controller
         ];
     }
 
-    /**
-     * The attributes that are allowed for creating a new model.
-     */
-    public function creatableFields(): array
-    {
-        return [
-            'product_id',
-            'user_id',
-            'supplier',
-            'manufacturer',
-            'cost_per_unit',
-            'amount',
-            'meta',
-            'quantity'
-        ];
-    }
-
-    /**
-     * The attributes that are allowed for updating a model.
-     */
-    public function updatableFields(): array
-    {
-        return [
-            'product_id',
-            'user_id',
-            'supplier',
-            'manufacturer',
-            'cost_per_unit',
-            'amount',
-            'meta',
-            'quantity'
-        ];
-    }
-
     protected function beforeStore(Request $request, $model)
     {
-        // Set user_id to authenticated user if not provided
         if (!$request->has('user_id')) {
             $model->user_id = Auth::user()->id;
         }
+    }
+
+    protected function afterStore(Request $request, Model $entity)
+    {
+        ProductsPurchased::dispatch($entity);
     }
 }

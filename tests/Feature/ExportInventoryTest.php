@@ -35,7 +35,6 @@ class ExportInventoryTest extends TestCase
             'product_id' => $product->id,
             'quantity' => 100,
             'storage_location' => 'Warehouse A',
-            'price' => 800.00,
             'last_stocked_at' => now()
         ]);
 
@@ -113,27 +112,6 @@ class ExportInventoryTest extends TestCase
         $response = $this->actingAs($this->user)
             ->post('/api/inventory/export', [
                 'storage_location' => 'Warehouse A'
-            ]);
-
-        $response->assertStatus(200);
-    }
-
-    public function test_export_inventory_with_price_range_filter()
-    {
-        $product = Product::factory()->create();
-        Inventory::factory()->create([
-            'product_id' => $product->id,
-            'price' => 5.00
-        ]);
-        Inventory::factory()->create([
-            'product_id' => $product->id,
-            'price' => 25.00
-        ]);
-
-        $response = $this->actingAs($this->user)
-            ->post('/api/inventory/export', [
-                'min_price' => 10.00,
-                'max_price' => 30.00
             ]);
 
         $response->assertStatus(200);

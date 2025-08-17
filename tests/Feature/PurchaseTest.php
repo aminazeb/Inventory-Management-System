@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Events\ProductCreated;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Product;
@@ -104,9 +105,10 @@ class PurchaseTest extends TestCase
         $purchase = Purchase::find($response->getData()->data->id);
 
         Event::assertDispatched(ProductsPurchased::class);
-        $event = new ProductsPurchased($purchase);
-        (new CreateProduct())->handle($event->purchase);
-        (new CreateInventory())->handle($event->purchase);
+        (new CreateProduct())->handle(new ProductsPurchased($purchase));
+
+        Event::assertDispatched(ProductCreated::class);
+        (new CreateInventory())->handle(new ProductCreated($purchase->fresh()->product));
 
         $purchase->refresh();
         $this->assertNotNull($purchase->product_id);

@@ -3,31 +3,24 @@
 namespace App\Listeners;
 
 use App\Models\Inventory;
+use App\Events\ProductCreated;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CreateInventory
+class CreateInventory implements ShouldQueue
 {
-    public function __construct()
+    public function handle(ProductCreated $event): void
     {
-        //
-    }
+        $product = $event->product;
 
-    public function handle($purchase): void
-    {
-        Inventory::create([
-            'product_id' => $purchase->product_id,
-            'quantity' => $purchase->quantity,
-            'storage_location' => $purchase->meta['storage_location'],
-            'last_stocked_at' => now(),
-        ]);
-    }
-
-    public function asListener(...$parameters): void
-    {
-        $event = $parameters[0];
-        $purchase = $event->purchase;
-
-        if (!$purchase->product?->inventory) {
-            $this->handle($purchase);
+        if (!$product?->inventory) {
+            Inventory::create([
+                'product_id' => $product->id,
+                'quantity' => $product->meta['quantity'],
+                'storage_location' => $product->meta['storage_location'],
+                'last_stocked_at' => now(),
+            ]);
+            $product->meta = null;
+            $product->save();
         }
     }
 }

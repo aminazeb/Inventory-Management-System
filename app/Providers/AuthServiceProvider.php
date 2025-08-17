@@ -6,7 +6,7 @@ use App\Models\Product;
 use App\Models\Inventory;
 use App\Policies\ProductPolicy;
 use App\Policies\InventoryPolicy;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {

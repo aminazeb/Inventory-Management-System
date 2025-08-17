@@ -3,9 +3,10 @@
 namespace App\Listeners;
 
 use App\Events\UserCreated;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\SendPhoneVerificationNotification;
 
-class SendUserVerificationNotifications
+class SendUserVerificationNotifications implements ShouldQueue
 {
     public function handle(UserCreated $event): void
     {

@@ -13,7 +13,7 @@ class ExportInventory
 
     public function asController(Request $request)
     {
-        $filename = 'inventory_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+        $filename = 'inventory_' . now()->format('Y-m-d') . '.xlsx';
         return Excel::download(new InventoryExport($request), $filename);
     }
 }

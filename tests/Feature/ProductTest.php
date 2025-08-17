@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Events\ProductCreated;
 use Tests\TestCase;
-use App\Models\Product;
 use App\Models\User;
+use App\Models\Product;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProductTest extends TestCase
@@ -42,6 +44,7 @@ class ProductTest extends TestCase
 
     public function test_store_product()
     {
+        Event::fake();
         $data = [
             'name' => 'Test Product',
             'description' => 'Test Desc',
@@ -50,6 +53,7 @@ class ProductTest extends TestCase
         ];
         $response = $this->actingAs($this->user)->postJson('/api/products', $data);
         $response->assertStatus(201)->assertJsonStructure(['data']);
+        Event::assertDispatched(ProductCreated::class);
     }
 
     public function test_update_product()

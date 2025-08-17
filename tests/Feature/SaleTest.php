@@ -48,6 +48,7 @@ class SaleTest extends TestCase
 
     public function test_store_sale()
     {
+        Event::fake();
         $product = Product::factory()->create();
         $data = [
             'product_id' => $product->id,
@@ -59,6 +60,7 @@ class SaleTest extends TestCase
         ];
         $response = $this->actingAs($this->user)->postJson('/api/sales', $data);
         $response->assertStatus(201)->assertJsonStructure(['data']);
+        Event::assertDispatched(ProductsSold::class);
     }
 
     public function test_update_sale()

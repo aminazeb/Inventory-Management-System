@@ -43,7 +43,7 @@ class ExportInventoryTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        $response->assertHeader('content-disposition', 'attachment; filename=inventory_' . now()->format('Y-m-d_H-i-s') . '.xlsx');
+        $response->assertHeader('content-disposition', 'attachment; filename=inventory_' . now()->format('Y-m-d') . '.xlsx');
     }
 
     public function test_export_inventory_with_product_filter()

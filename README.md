@@ -1,4 +1,4 @@
-# Inventory Management System [WORK IN PROGRESS]
+# Inventory
 
 A Laravel-based Inventory Management System for managing products, inventory, sales, purchases, roles, and permissions. This project provides a robust backend API and a simple web interface for inventory operations.
 

@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Events\UserCreated;
-use App\Saloon\Connectors\TextbeltConnector;
-use App\Saloon\Requests\VerifyTextbeltOTP;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
+use App\Saloon\Requests\VerifyTextbeltOTP;
+use App\Saloon\Connectors\TextbeltConnector;
 
 class AuthController extends Controller
 {
@@ -17,7 +18,7 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed',
+            'password' => 'required',
             'phone' => 'nullable|string|max:100',
         ]);
 
@@ -30,13 +31,7 @@ class AuthController extends Controller
 
         UserCreated::dispatch($user);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'email_verified' => $user->hasVerifiedEmail(),
-        ]);
+        return response()->json(new UserResource($user), 201);
     }
 
     public function login(Request $request)
@@ -52,9 +47,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+        return response()->json(new UserResource($user), 201);
     }
 
     public function logout(Request $request)

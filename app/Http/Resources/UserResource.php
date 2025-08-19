@@ -27,7 +27,7 @@ class UserResource extends JsonResource
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
             'password' => $this->password,
             'phone_verified_at' => $this->phone_verified_at,
-            'token' => $this->when($isLoginRoute, fn() => $this->createToken('auth_token')->plainTextToken),
+            'token' => $this->when($isLoginRoute, fn () => $this->createToken('auth_token')->plainTextToken),
         ];
     }
 }

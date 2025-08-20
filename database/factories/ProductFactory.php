@@ -18,6 +18,7 @@ class ProductFactory extends Factory
     {
         return [
             'name' => fake()->words(2, true),
+            'inventory_id' => fake()->randomDigitNotNull(),
             'description' => fake()->sentence(),
             'color' => fake()->randomElement(['red', 'blue', 'green', 'black', 'white']),
             'image_url' => fake()->imageUrl(),

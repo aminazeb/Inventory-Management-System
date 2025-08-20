@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ProductCreated;
 use App\Models\Product;
+use App\Events\ProductCreated;
+use App\Policies\ProductPolicy;
+use Orion\Http\Requests\Request;
 use Orion\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Resources\ProductResource;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductController extends Controller
 {
     protected $model = Product::class;
-    protected $policy = \App\Policies\ProductPolicy::class;
+    protected $policy = ProductPolicy::class;
+    protected $resource = ProductResource::class;
 
     public function includes(): array
     {
@@ -32,8 +36,19 @@ class ProductController extends Controller
         return ['id', 'name', 'description', 'color', 'image_url', 'price'];
     }
 
+    protected function buildIndexFetchQuery(Request $request, array $requestedRelations): Builder
+    {
+        $query = parent::buildIndexFetchQuery($request, $requestedRelations);
+        return $query->withTrashed();
+    }
+
     protected function afterStore(Request $request, $model)
     {
         ProductCreated::dispatch($model);
+    }
+
+    protected function afterDestroy(Request $request, $entity)
+    {
+        $entity->inventory()->delete();
     }
 }

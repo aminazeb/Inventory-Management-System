@@ -13,12 +13,14 @@ class CreateInventory implements ShouldQueue
         $product = $event->product;
 
         if (!$product?->inventory) {
-            Inventory::create([
+            $inventory = Inventory::create([
                 'product_id' => $product->id,
                 'quantity' => $product->meta['quantity'],
                 'storage_location' => $product->meta['storage_location'],
                 'last_stocked_at' => now(),
             ]);
+
+            $product->inventory_id = $inventory->id;
             $product->meta = null;
             $product->save();
         }

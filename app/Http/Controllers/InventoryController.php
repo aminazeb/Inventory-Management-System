@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
+use App\Policies\InventoryPolicy;
 use Orion\Http\Controllers\Controller;
+use App\Http\Resources\InventoryResource;
 
 class InventoryController extends Controller
 {
     protected $model  = Inventory::class;
-    protected $policy = \App\Policies\InventoryPolicy::class;
+    protected $policy = InventoryPolicy::class;
+    protected $resource = InventoryResource::class;
 
     public function includes(): array
     {

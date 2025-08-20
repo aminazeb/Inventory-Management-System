@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->integer('product_id')->nullable();
-            $table->integer('user_id');
+            $table->foreignId('user_id')->constrained();
             $table->string('supplier');
             $table->string('manufacturer');
             $table->decimal('cost_per_unit', 10, 2);

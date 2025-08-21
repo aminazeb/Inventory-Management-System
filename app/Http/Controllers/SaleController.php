@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ProductsSold;
 use App\Models\Sale;
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Model;
+use App\Events\ProductsSold;
+use App\Policies\SalePolicy;
+use Orion\Http\Requests\Request;
+use App\Http\Resources\SaleResource;
 use Illuminate\Support\Facades\Auth;
 use Orion\Http\Controllers\Controller;
-use Orion\Http\Requests\Request;
+use Illuminate\Database\Eloquent\Model;
 
 class SaleController extends Controller
 {
     protected $model = Sale::class;
-    protected $policy = \App\Policies\SalePolicy::class;
+    protected $policy = SalePolicy::class;
+    protected $resource = SaleResource::class;
 
     public function includes(): array
     {

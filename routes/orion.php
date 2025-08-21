@@ -10,7 +10,7 @@ use App\Http\Controllers\SaleController;
 use App\Actions\ExportInventory;
 
 Route::middleware('auth:sanctum')->group(function () {
-    Orion::resource('products', ProductController::class);
+    Orion::resource('products', ProductController::class)->withSoftDeletes();
     Orion::resource('inventory', InventoryController::class);
     Orion::resource('users', UserController::class)->only('index', 'search', 'show', 'update');
     Orion::resource('purchases', PurchaseController::class);

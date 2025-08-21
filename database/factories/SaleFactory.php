@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,7 @@ class SaleFactory extends Factory
     {
         return [
             'product_id' => Product::factory(),
-            'user_id' => fake()->randomDigitNotNull(),
+            'user_id' => User::factory(),
             'quantity' => fake()->numberBetween(1, 1000),
             'amount' => fake()->randomFloat(2, 0.5, 50),
             'action' => fake()->randomElement(['sold', 'returned']),

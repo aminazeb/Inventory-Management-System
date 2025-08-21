@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Product;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,9 +18,9 @@ class PurchaseFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => Product::factory(),
+            'product_id' => fake()->randomDigitNotNull(),
             'quantity' => fake()->numberBetween(1, 1000),
-            'user_id' => fake()->randomDigitNotNull(),
+            'user_id' => User::factory(),
             'supplier' => fake()->company(),
             'manufacturer' => fake()->company(),
             'cost_per_unit' => fake()->randomFloat(2, 0.5, 50),

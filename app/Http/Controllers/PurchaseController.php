@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ProductsPurchased;
+use App\Http\Resources\PurchaseResource;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 use App\Policies\PurchasePolicy;
@@ -14,6 +15,7 @@ class PurchaseController extends Controller
 {
     protected $model = Purchase::class;
     protected $policy = PurchasePolicy::class;
+    protected $resource = PurchaseResource::class;
 
     public function includes(): array
     {

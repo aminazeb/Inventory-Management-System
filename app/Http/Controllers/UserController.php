@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Orion\Http\Controllers\Controller;
+use App\Policies\UserPolicy;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
+use Orion\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
     protected $model = User::class;
-    protected $policy = \App\Policies\UserPolicy::class;
+    protected $policy = UserPolicy::class;
+    protected $resource = UserResource::class;
 
     public function includes(): array
     {

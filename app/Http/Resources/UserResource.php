@@ -17,7 +17,7 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $isLoginRoute = Route::getCurrentRoute()?->getController() instanceof AuthController && Str::after(Route::getCurrentRoute()->getActionName(), '@') === 'login';
+        $isLoginRoute = Route::getCurrentRoute()?->getController() instanceof AuthController && in_array(Str::after(Route::getCurrentRoute()->getActionName(), '@'), ['register', 'login']);
 
         return [
             'id' => $this->id,

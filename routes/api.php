@@ -15,7 +15,7 @@ Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth:sanctum')->name('verification.notice');
 
-Route::post('/upload/image', \App\Actions\UploadImage::class);
+Route::post('/upload/image', \App\Actions\UploadImage::class)->middleware('auth:sanctum');
 
 Route::post('/email/verification-notification', [AuthController::class, 'resendEmailVerification'])
     ->middleware(['auth:sanctum'])->name('verification.send');

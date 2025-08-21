@@ -9,6 +9,7 @@ use Orion\Http\Requests\Request;
 use Orion\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class ProductController extends Controller
 {
@@ -50,5 +51,10 @@ class ProductController extends Controller
     protected function afterDestroy(Request $request, $entity)
     {
         $entity->inventory()->delete();
+    }
+
+    protected function afterRestore(Request $request, Model $entity)
+    {
+        $entity->inventory()->restore();
     }
 }
